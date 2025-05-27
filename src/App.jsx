@@ -1,6 +1,6 @@
 import './App.css'
 import { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom"; 
 import { UserProvider, UserContext } from './components/UserContext';
 import Header from './components/Header';
 import UserForm from './components/UserForm';
@@ -13,25 +13,27 @@ function App() {
   const [element, setElement] = useState('');
   const [artwork, setArtwork] = useState('');
   const [userName, setUserName] = useState('');
+  const location = useLocation(); 
 
   const questions = [
-  {
-    question: "What's your favorite color?",
-    options: ["Red 🔴", "Blue 🔵", "Green 🟢", "Yellow 🟡"],
-  },
- ];
+    {
+      question: "What's your favorite color?",
+      options: ["Red 🔴", "Blue 🔵", "Green 🟢", "Yellow 🟡"],
+    },
+  ];
+
   const keywords = {
     Fire: "fire",
     Water: "water",
     Earth: "earth",
     Air: "air",
   };
+
   const elements = {
     "Red 🔴": "Fire",
     "Blue 🔵": "Water",
     "Green 🟢": "Earth",
     "Yellow 🟡": "Air",
-    // Continue mapping all your possible options to a keyword
   };
 
   function handleAnswer(answer) {
@@ -44,46 +46,46 @@ function App() {
   };
 
   useEffect(() => {
+    if (location.pathname === '/') {
       setAnswers([]);
       setCurrentQuestionIndex(0);
-    }, [userName]
-  );
+      setElement('');
+      setArtwork('');
+    }
+  }, [userName, location.pathname]); 
 
-  useEffect(
-    function () {
-      function determineElement(answers) {
-        const counts = {};
-        answers.forEach(function(answer) {
-          const element = elements[answer];
-          counts[element] = (counts[element] || 0) + 1;
-        });
-        return Object.keys(counts).reduce(function(a, b) {
-          return counts[a] > counts[b] ? a : b
-        });
-      };
-      async function fetchImage() {
-        try {
-          const response = await fetch("https://dog.ceo/api/breeds/image/random");
-          if (!response.ok) {
-            throw new Error("Erro ao buscar imagem");
-          }
-          const data = await response.json();
-          setArtwork(data);
+  useEffect(() => {
+    function determineElement(answers) {
+      const counts = {};
+      answers.forEach(function(answer) {
+        const element = elements[answer];
+        counts[element] = (counts[element] || 0) + 1;
+      });
+      return Object.keys(counts).reduce(function(a, b) {
+        return counts[a] > counts[b] ? a : b
+      });
+    };
+
+    async function fetchImage() {
+      try {
+        const response = await fetch("https://dog.ceo/api/breeds/image/random");
+        if (!response.ok) {
+          throw new Error("Erro ao buscar imagem");
         }
-        catch(error) {
-          console.log(error);
-        }
+        const data = await response.json();
+        setArtwork(data);
       }
-      
-      if (currentQuestionIndex === questions.length) {
-        const selectedElement = determineElement(answers);
-        setElement(selectedElement);
-        fetchImage(keywords[selectedElement]);
+      catch(error) {
+        console.log(error);
       }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [currentQuestionIndex, userName]
-  );
+    }
+    
+    if (currentQuestionIndex === questions.length) {
+      const selectedElement = determineElement(answers);
+      setElement(selectedElement);
+      fetchImage(keywords[selectedElement]);
+    }
+  }, [currentQuestionIndex, userName]);
 
   return (
     <UserProvider value={{ name: userName, setName: setUserName }}>
@@ -102,7 +104,7 @@ function App() {
         />
       </Routes>
     </UserProvider>
-  )
+  );
 }
 
-export default App
+export default App;
