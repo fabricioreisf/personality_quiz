@@ -1,12 +1,30 @@
-# React + Vite
+# Personality Quiz
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Um quiz de personalidade interativo e divertido, feito com **React** + **Vite**!  
 
-Currently, two official plugins are available:
+## Sobre o projeto
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Este aplicativo permite que o usuário descubra seu perfil de personalidade com base nas respostas de um conjunto de perguntas. Foi feito para fim educacional, para a plataforma Codedéx.
 
-## Expanding the ESLint configuration
+## Como rodar o projeto
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. **Clone o repositório:**
+
+```bash
+git clone https://github.com/fabricioreisf/personality_quiz.git
+cd personality_quiz
+```
+Instale as dependências:
+
+```bash
+npm install
+````
+Execute o projeto localmente:
+````bash
+npm run dev
+````
+Acesse o aplicativo no navegador:
+```bash
+http://localhost:5174
+````
+
