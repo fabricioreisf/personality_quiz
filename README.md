@@ -25,6 +25,6 @@ npm run dev
 ````
 Acesse o aplicativo no navegador:
 ```bash
-http://localhost:5174
+http://localhost:5173
 ````
 
